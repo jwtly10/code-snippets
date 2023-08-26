@@ -1,12 +1,14 @@
 import ListSnippets from './components/ListSnippets'
 import './App.css'
+import { Container } from 'react-bootstrap'
 
 function App() {
     return (
         <>
-            <div className="container d-flex justify-content-center">
+            <Container>
+                <h1>code-snippets</h1>
                 <ListSnippets />
-            </div>
+            </Container>
         </>
     )
 }
