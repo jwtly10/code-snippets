@@ -2,15 +2,35 @@ import { Request, Response, NextFunction } from 'express'
 import db from '../config'
 import logger from '../utils/logger'
 
+type Snippet = {
+    language: string
+    title: string
+    snippet: string
+    snippetID?: number
+    created?: Date
+    updated?: Date
+}
+
 const getAllSnippets = async (
     req: Request,
     res: Response,
     next: NextFunction
 ) => {
-    return (
-        res.status(200).json({ testKey: 'testvalue' }) ||
-        res.status(200).json('Test')
-    )
+    try {
+        const query =
+            'SELECT snippet_id, language, title, snippet, created, updated FROM snippets_tb'
+
+        db.query(query, (err, result) => {
+            if (err) {
+                logger.error(err)
+                return res.status(500).json({ error: 'Internal Server Error' })
+            }
+            return res.status(200).json({ result })
+        })
+    } catch (err) {
+        logger.error(err)
+        return res.status(500).json({ error: 'Internal Server Error' })
+    }
 }
 
 const getSnippet = async (req: Request, res: Response, next: NextFunction) => {
@@ -18,12 +38,6 @@ const getSnippet = async (req: Request, res: Response, next: NextFunction) => {
         res.status(200).json({ testKey: 'testvalue' }) ||
         res.status(200).json('Test')
     )
-}
-
-type Snippet = {
-    language: string
-    title: string
-    snippet: string
 }
 
 const saveSnippet = async (req: Request, res: Response) => {

@@ -1,5 +1,6 @@
 import http from 'http'
 import express, { Express } from 'express'
+import cors from 'cors'
 import morgan from 'morgan'
 import router from './routes'
 import bodyParser from 'body-parser'
@@ -11,6 +12,11 @@ app.use(morgan('dev'))
 // parse request
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
+app.use(
+    cors({
+        origin: 'http://localhost:5173',
+    })
+)
 
 app.use((req, res, next) => {
     // set cors policy
