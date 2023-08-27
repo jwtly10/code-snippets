@@ -6,7 +6,7 @@ type Snippet = {
     language: string
     title: string
     snippet: string
-    snippetID?: number
+    snippet_id: number
     created?: Date
     updated?: Date
 }
@@ -58,7 +58,7 @@ const saveSnippet = async (req: Request, res: Response) => {
                 }
                 return res
                     .status(200)
-                    .json({ snippetIDGenerated: result.insertId })
+                    .json({ message: result.insertId.toString() })
             }
         )
     } catch (err) {
@@ -83,10 +83,29 @@ const deleteSnippet = async (
     res: Response,
     next: NextFunction
 ) => {
-    return (
-        res.status(200).json({ testKey: 'testvalue' }) ||
-        res.status(200).json('Test')
-    )
+    try {
+        var id = req.params.id
+
+        const query = 'DELETE FROM snippets_tb WHERE snippet_id = ?'
+
+        db.query(query, [id], (err, result) => {
+            if (err) {
+                logger.error(err)
+                return res
+                    .status(500)
+                    .json({ error: 'Deleting snippet failed' })
+            }
+
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ error: 'Snippet not found' })
+            }
+
+            return res.status(200).json({ message: 'Snippet deleted' })
+        })
+    } catch (err) {
+        logger.error(err)
+        return res.status(500).json({ error: 'Internal Server Error' })
+    }
 }
 
 export default {

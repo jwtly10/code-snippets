@@ -5,8 +5,8 @@ const router = express.Router()
 
 router.get('/snippets', snippet.getAllSnippets)
 router.post('/save', snippet.saveSnippet)
-router.get('/snippet/{id}', snippet.getSnippet)
-router.put('/update/{id}', snippet.updateSnippet)
-router.post('/delete/{id}', snippet.deleteSnippet)
+router.get('/snippet/:id', snippet.getSnippet)
+router.put('/update/:id', snippet.updateSnippet)
+router.delete('/delete/:id', snippet.deleteSnippet)
 
 export default router
