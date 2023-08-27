@@ -20,7 +20,6 @@ function Snippet({ snippet }: { snippet: string }) {
     }, [])
 
     useEffect(() => {
-        console.log(formattedSnippet)
         const startState = EditorState.create({
             doc: formattedSnippet,
             extensions: [keymap.of(defaultKeymap), lineNumbers()],

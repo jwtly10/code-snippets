@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Snippet from './Snippet'
+import SnippetDialog from './SnippetDialog'
 import { Col, Container, ListGroup, Row } from 'react-bootstrap'
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
@@ -27,6 +28,21 @@ function ListSnippets() {
 
     function toggleSelection(index: number) {
         setActiveItem(index)
+    }
+
+    function editSnippet(index: number) {
+        confirmAlert({
+            customUI: ({ onClose }) => {
+                return (
+                    <Container>
+                        <SnippetDialog
+                            onClose={onClose}
+                            snippet={snippets[index]}
+                        />
+                    </Container>
+                )
+            },
+        })
     }
 
     function confirmDelete(index: number) {
@@ -134,8 +150,8 @@ function ListSnippets() {
                                     {activeItem == index ? (
                                         <div className="d-flex justify-content-between w-25">
                                             <span
-                                                onClick={(e) => {
-                                                    console.log(e)
+                                                onClick={() => {
+                                                    editSnippet(index)
                                                 }}
                                                 className="btn btn-secondary"
                                             >
