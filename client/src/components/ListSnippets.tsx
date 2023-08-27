@@ -104,6 +104,9 @@ function ListSnippets() {
                                     key={index}
                                     onClick={() => toggleSelection(index)}
                                     className="d-flex justify-content-between align-items-center"
+                                    style={{
+                                        height: '50px',
+                                    }}
                                     active={activeItem == index}
                                 >
                                     {'[' +
@@ -116,7 +119,7 @@ function ListSnippets() {
                                                 onClick={() => {
                                                     editSnippet(index)
                                                 }}
-                                                className="btn btn-secondary"
+                                                className="m-0 btn btn-secondary"
                                             >
                                                 Edit
                                             </span>

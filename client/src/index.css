@@ -1,11 +1,14 @@
 .cm-editor{
     max-height: 500px;
     overflow-y: auto;
-    border: 1px solid #ddd;
+    /* border: 1px solid #ddd; */
+    background-color: #1E1E1E;
+    border-radius: 5px;
 }
 
 .cm-gutter{
-    background-color: #f5f5f5;
+    background-color: #1E1E1E;
+    color: #808080;
 }
 
 .react-confirm-alert-overlay{

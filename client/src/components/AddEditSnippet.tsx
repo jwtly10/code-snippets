@@ -55,7 +55,8 @@ function AddEditSnippet({
         setSnipText(e.target.value)
     }
 
-    function handleSubmit() {
+    function handleSubmit(e: any) {
+        e.preventDefault()
         // Check if anything will break before submitting
         var formattedText = ''
         var minifiedText = ''
@@ -107,7 +108,7 @@ function AddEditSnippet({
                 <h5 className="card-title">
                     {snippet ? 'Edit Snippet' : 'New Snippet'}
                 </h5>
-                <Form autoComplete="off" onSubmit={handleSubmit}>
+                <Form autoComplete="off" onSubmit={(e) => handleSubmit(e)}>
                     <Form.Group className="mb-3" controlId="formSnippetTitle">
                         <Form.Label>Snippet Title: </Form.Label>
                         <Form.Control
