@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import Snippet from './Snippet'
 import SnippetDialog from './SnippetDialog'
@@ -25,6 +25,10 @@ function ListSnippets() {
             setSnippets(response.data.result)
         })
     }, [])
+
+    useEffect(() => {
+        console.log('loading snippets')
+    }, [snippets])
 
     function toggleSelection(index: number) {
         setActiveItem(index)
@@ -77,26 +81,19 @@ function ListSnippets() {
                                                             snippets[index]
                                                                 .snippet_id
                                                     )
-                                                    .then((response) => {
-                                                        if (
-                                                            response.data.result
-                                                        ) {
-                                                            setSnippets(
-                                                                snippets.filter(
-                                                                    (
-                                                                        snippet: Snippet
-                                                                    ) =>
-                                                                        snippet.snippet_id !==
-                                                                        snippets[
-                                                                            index
-                                                                        ]
-                                                                            .snippet_id
-                                                                )
+                                                    .then(() => {
+                                                        setSnippets(
+                                                            snippets.filter(
+                                                                (
+                                                                    snippet: Snippet
+                                                                ) =>
+                                                                    snippet.snippet_id !==
+                                                                    snippets[
+                                                                        index
+                                                                    ].snippet_id
                                                             )
-                                                            setActiveItem(
-                                                                undefined
-                                                            )
-                                                        }
+                                                        )
+                                                        setActiveItem(undefined)
                                                     })
                                                     .catch((error) => {
                                                         setError(

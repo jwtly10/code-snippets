@@ -17,7 +17,7 @@ function Snippet({ snippet }: { snippet: string }) {
             setFormattedSnippet('')
             setError(error.toString())
         }
-    }, [])
+    }, [snippet])
 
     useEffect(() => {
         const startState = EditorState.create({
