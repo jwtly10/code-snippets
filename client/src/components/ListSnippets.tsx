@@ -26,10 +26,6 @@ function ListSnippets() {
         })
     }, [])
 
-    useEffect(() => {
-        console.log('loading snippets')
-    }, [snippets])
-
     function toggleSelection(index: number) {
         setActiveItem(index)
     }
