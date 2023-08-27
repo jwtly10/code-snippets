@@ -2,7 +2,7 @@ import ListSnippets from './components/ListSnippets'
 import './App.css'
 import { Button, Container } from 'react-bootstrap'
 import { confirmAlert } from 'react-confirm-alert'
-import SnippetDialog from './components/SnippetDialog'
+import AddEditSnippet from './components/AddEditSnippet'
 
 function App() {
     function handleNewSnippet() {
@@ -10,7 +10,7 @@ function App() {
             customUI: ({ onClose }) => {
                 return (
                     <Container>
-                        <SnippetDialog onClose={onClose} />
+                        <AddEditSnippet onClose={onClose} />
                     </Container>
                 )
             },

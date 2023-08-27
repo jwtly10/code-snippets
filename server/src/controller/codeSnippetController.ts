@@ -72,10 +72,35 @@ const updateSnippet = async (
     res: Response,
     next: NextFunction
 ) => {
-    return (
-        res.status(200).json({ testKey: 'testvalue' }) ||
-        res.status(200).json('Test')
-    )
+    try {
+        const snippet: Snippet = req.body
+        const id = req.params.id
+
+        const query =
+            'UPDATE snippets_tb SET language = ?, title = ?, snippet = ?, updated = NOW() WHERE snippet_id = ?'
+
+        db.query(
+            query,
+            [snippet.language, snippet.title, snippet.snippet, id],
+            (err, result) => {
+                if (err) {
+                    logger.error(err)
+                    return res
+                        .status(500)
+                        .json({ error: 'Snippet Validation Failed' })
+                }
+
+                if (result.affectedRows === 0) {
+                    return res.status(404).json({ error: 'Snippet not found' })
+                }
+
+                return res.status(200).json({ message: 'Snippet updated' })
+            }
+        )
+    } catch (err) {
+        logger.error(err)
+        return res.status(500).json({ error: 'Internal Server Error' })
+    }
 }
 
 const deleteSnippet = async (

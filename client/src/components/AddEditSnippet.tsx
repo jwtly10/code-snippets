@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Button, Card, Form } from 'react-bootstrap'
 import { format } from 'sql-formatter'
 import utils from '../utils/utils'
@@ -13,20 +13,45 @@ type Snippet = {
     updated?: Date
 }
 
-function ListDialog({
+function AddEditSnippet({
     snippet,
     onClose,
+    updateSnippets,
 }: {
     snippet?: Snippet
     onClose: () => void
+    updateSnippets?: () => void
 }) {
     const [error, setError] = useState<string>('')
-    const [snipText, setSnippet] = useState<string>('')
+    const [snipTitle, setSnipTitle] = useState<string>('')
+    const [snipLang, setSnipLang] = useState<string>('')
+    const [snipText, setSnipText] = useState<string>('')
     const title = useRef<HTMLInputElement>(null)
     const language = useRef<HTMLInputElement>(null)
 
-    function handleChange(e: any) {
-        setSnippet(e.target.value)
+    useEffect(() => {
+        if (snippet) {
+            setSnipTitle(snippet.title)
+            setSnipText(format(snippet.snippet))
+            setSnipLang(snippet.language)
+        }
+
+        // If there is no snippet, set lang becuase no option to change currently.
+        if (!snippet) {
+            setSnipLang('SQL')
+        }
+    }, [])
+
+    function handleLangChange(e: any) {
+        setSnipLang(e.target.value)
+    }
+
+    function handleTitleChange(e: any) {
+        setSnipTitle(e.target.value)
+    }
+
+    function handleSnippetChange(e: any) {
+        setSnipText(e.target.value)
     }
 
     function handleSubmit() {
@@ -42,18 +67,36 @@ function ListDialog({
             return
         }
 
-        axios
-            .post('http://localhost:3000/v1/save', {
-                snippet: minifiedText,
-                language: language.current?.value,
-                title: title.current?.value,
-            })
-            .then(() => {
-                onClose()
-            })
-            .catch((err) => {
-                setError(err.toString())
-            })
+        if (snippet) {
+            axios
+                .put('http://localhost:3000/v1/update/' + snippet.snippet_id, {
+                    snippet: minifiedText,
+                    language: snipLang,
+                    title: snipTitle,
+                })
+                .then(() => {
+                    onClose()
+                    if (updateSnippets) {
+                        updateSnippets()
+                    }
+                })
+                .catch((err) => {
+                    setError(err.toString())
+                })
+        } else {
+            axios
+                .post('http://localhost:3000/v1/save', {
+                    snippet: minifiedText,
+                    language: snipLang,
+                    title: snipTitle,
+                })
+                .then(() => {
+                    onClose()
+                })
+                .catch((err) => {
+                    setError(err.toString())
+                })
+        }
     }
 
     // For now only SQL is supported
@@ -70,7 +113,8 @@ function ListDialog({
                             required
                             type="text"
                             placeholder="eg. Getting data from email table"
-                            value={snippet?.title}
+                            onChange={(e) => handleTitleChange(e)}
+                            value={snipTitle}
                             ref={title}
                         />
                     </Form.Group>
@@ -83,9 +127,9 @@ function ListDialog({
                         <Form.Control
                             required
                             type="text"
-                            defaultValue="SQL"
+                            value={snipLang || 'SQL'}
+                            onChange={(e) => handleLangChange(e)}
                             disabled={true}
-                            value={snippet?.language}
                             ref={language}
                         />
                     </Form.Group>
@@ -95,12 +139,8 @@ function ListDialog({
                         <Form.Control
                             as="textarea"
                             required
-                            value={
-                                snippet
-                                    ? format(snippet?.snippet || '')
-                                    : snipText
-                            }
-                            onChange={handleChange}
+                            onChange={(e) => handleSnippetChange(e)}
+                            value={snipText}
                             rows={10}
                         />
                     </Form.Group>
@@ -131,4 +171,4 @@ function ListDialog({
     )
 }
 
-export default ListDialog
+export default AddEditSnippet

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Snippet from './Snippet'
-import SnippetDialog from './SnippetDialog'
+import AddEditSnippet from './AddEditSnippet'
 import { Col, Container, ListGroup, Row } from 'react-bootstrap'
 import { confirmAlert } from 'react-confirm-alert'
 import DeleteDialog from './DeleteDialog'
@@ -22,13 +22,29 @@ function ListSnippets() {
     const [activeItem, setActiveItem] = useState<number | undefined>(undefined)
 
     useEffect(() => {
-        axios.get('http://localhost:3000/v1/snippets').then((response) => {
-            setSnippets(response.data.result)
-        })
+        axios
+            .get('http://localhost:3000/v1/snippets')
+            .then((response) => {
+                setSnippets(response.data.result)
+            })
+            .catch((err) => {
+                setError(err.message)
+            })
     }, [])
 
     function toggleSelection(index: number) {
         setActiveItem(index)
+    }
+
+    function updateSnippets() {
+        axios
+            .get('http://localhost:3000/v1/snippets')
+            .then((response) => {
+                setSnippets(response.data.result)
+            })
+            .catch((err) => {
+                setError(err.message)
+            })
     }
 
     function editSnippet(index: number) {
@@ -36,9 +52,10 @@ function ListSnippets() {
             customUI: ({ onClose }) => {
                 return (
                     <Container>
-                        <SnippetDialog
+                        <AddEditSnippet
                             onClose={onClose}
                             snippet={snippets[index]}
+                            updateSnippets={updateSnippets}
                         />
                     </Container>
                 )
@@ -49,13 +66,15 @@ function ListSnippets() {
     function deleteSnippet(index: number) {
         confirmAlert({
             customUI: ({ onClose }) => {
-                setActiveItem(undefined)
                 return (
                     <Container>
                         <DeleteDialog
                             id={snippets[index].snippet_id}
                             snippets={snippets}
-                            onClose={onClose}
+                            onClose={() => {
+                                onClose()
+                                setActiveItem(undefined)
+                            }}
                             setSnippets={setSnippets}
                             setError={setError}
                         />
@@ -67,19 +86,19 @@ function ListSnippets() {
 
     return (
         <Container>
+            {error ? (
+                <p className="alert alert-danger mt-3 d-flex justify-content-between">
+                    {error}
+                    <span
+                        onClick={() => setError('')}
+                        className="btn-close"
+                    ></span>
+                </p>
+            ) : null}
             {snippets.length > 0 ? (
                 <Row>
                     <Col>
                         <ListGroup>
-                            {error ? (
-                                <p className="alert alert-danger mt-3 d-flex justify-content-between">
-                                    {error}
-                                    <span
-                                        onClick={() => setError('')}
-                                        className="btn-close"
-                                    ></span>
-                                </p>
-                            ) : null}
                             {snippets.map((snippet: Snippet, index: number) => (
                                 <ListGroup.Item
                                     key={index}
