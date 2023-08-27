@@ -2,6 +2,7 @@ import axios from 'axios'
 import { useEffect, useRef, useState } from 'react'
 import { Button, Card, Form } from 'react-bootstrap'
 import { format } from 'sql-formatter'
+import dayjs from 'dayjs'
 import utils from '../utils/utils'
 
 type Snippet = {
@@ -9,8 +10,8 @@ type Snippet = {
     title: string
     snippet: string
     snippet_id: number
-    created?: Date
-    updated?: Date
+    created: Date
+    updated: Date
 }
 
 function AddEditSnippet({
@@ -152,6 +153,29 @@ function AddEditSnippet({
                     ) : null}
 
                     <div className="d-flex justify-content-end">
+                        {snippet ? (
+                            <div
+                                className="d-flex flex-column align-items-end"
+                                style={{ marginRight: 10 }}
+                            >
+                                <p className="text-secondary m-0 p-0">
+                                    <small>
+                                        Created:{' '}
+                                        {dayjs(snippet.created).format(
+                                            'YYYY-MM-DD HH:mm:ss'
+                                        )}
+                                    </small>
+                                </p>
+                                <p className="text-secondary m-0 p-0">
+                                    <small>
+                                        Last Updated:{' '}
+                                        {dayjs(snippet.updated).format(
+                                            'YYYY-MM-DD HH:mm:ss'
+                                        )}
+                                    </small>
+                                </p>
+                            </div>
+                        ) : null}
                         <Button
                             onClick={() => {
                                 onClose()
@@ -162,7 +186,7 @@ function AddEditSnippet({
                             Cancel
                         </Button>
                         <Button className="m-2" variant="primary" type="submit">
-                            Submit
+                            {snippet ? 'Update' : 'Save'}
                         </Button>
                     </div>
                 </Form>{' '}
