@@ -114,7 +114,7 @@ function ListDialog({
                     <div className="d-flex justify-content-end">
                         <Button
                             onClick={() => {
-                                onClose
+                                onClose()
                             }}
                             className="m-2"
                             variant="danger"
