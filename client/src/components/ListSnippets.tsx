@@ -16,16 +16,17 @@ type Snippet = {
 
 function ListSnippets() {
     const [snippets, setSnippets] = useState<Snippet[]>([])
+    const [error, setError] = useState('')
     const [activeItem, setActiveItem] = useState<number | undefined>(undefined)
 
     useEffect(() => {
         axios.get('http://localhost:3000/v1/snippets').then((response) => {
             setSnippets(response.data.result)
         })
-    }, [snippets])
+    }, [])
 
-    function toggleSelection(id: number) {
-        setActiveItem(id)
+    function toggleSelection(index: number) {
+        setActiveItem(index)
     }
 
     function confirmDelete(index: number) {
@@ -81,6 +82,14 @@ function ListSnippets() {
                                                             )
                                                         }
                                                     })
+                                                    .catch((error) => {
+                                                        setError(
+                                                            'Error: ' +
+                                                                error.response
+                                                                    .data.error
+                                                        )
+                                                    })
+
                                                 onClose()
                                             }}
                                         >
@@ -95,84 +104,68 @@ function ListSnippets() {
             },
         })
     }
-    // confirmAlert({
-    //     title: 'Delete Snippet',
-    //     message: 'Are you sure you want to delete this snippet?',
-    //     buttons: [
-    //         {
-    //             label: 'Yes',
-    //             onClick: () => {
-    //                 axios
-    //                     .delete(
-    //                         'http://localhost:3000/v1/delete/' +
-    //                             snippets[index].snippet_id
-    //                     )
-    //                     .then((response) => {
-    //                         if (response.data.result) {
-    //                             setSnippets(
-    //                                 snippets.filter(
-    //                                     (snippet: Snippet) =>
-    //                                         snippet.snippet_id !==
-    //                                         snippets[index].snippet_id
-    //                                 )
-    //                             )
-    //                             setActiveItem(undefined)
-    //                         }
-    //                     })
-    //             },
-    //         },
-    //         {
-    //             label: 'No',
-    //             onClick: () => {},
-    //         },
-    //     ],
-    // })
 
     return (
         <Container>
-            <Row>
-                <Col>
-                    <ListGroup>
-                        {snippets.map((snippet: Snippet, index: number) => (
-                            <ListGroup.Item
-                                key={index}
-                                onClick={() => toggleSelection(index)}
-                                className="d-flex justify-content-between align-items-center"
-                                active={activeItem == index}
-                            >
-                                {'[' + snippet.language + '] ' + snippet.title}
-                                {activeItem == index ? (
-                                    <div className="d-flex justify-content-between w-25">
-                                        <span
-                                            onClick={(e) => {
-                                                console.log(e)
-                                            }}
-                                            className="btn btn-secondary"
-                                        >
-                                            Edit
-                                        </span>
-                                        <span
-                                            className="m-0 btn btn-danger"
-                                            onClick={() => confirmDelete(index)}
-                                        >
-                                            Delete
-                                        </span>
-                                    </div>
-                                ) : (
-                                    ''
-                                )}
-                            </ListGroup.Item>
-                        ))}
-                    </ListGroup>
-                </Col>
-                <Col>
-                    {activeItem !== undefined ? (
-                        <Snippet snippet={snippets[activeItem].snippet} />
-                    ) : (
-                        <p>Click on a snippet to view it.</p>
-                    )}
-                </Col>
-            </Row>
+            {snippets.length > 0 ? (
+                <Row>
+                    <Col>
+                        <ListGroup>
+                            {error ? (
+                                <p className="alert alert-danger mt-3 d-flex justify-content-between">
+                                    {error}
+                                    <span
+                                        onClick={() => setError('')}
+                                        className="btn-close"
+                                    ></span>
+                                </p>
+                            ) : null}
+                            {snippets.map((snippet: Snippet, index: number) => (
+                                <ListGroup.Item
+                                    key={index}
+                                    onClick={() => toggleSelection(index)}
+                                    className="d-flex justify-content-between align-items-center"
+                                    active={activeItem == index}
+                                >
+                                    {'[' +
+                                        snippet.language +
+                                        '] ' +
+                                        snippet.title}
+                                    {activeItem == index ? (
+                                        <div className="d-flex justify-content-between w-25">
+                                            <span
+                                                onClick={(e) => {
+                                                    console.log(e)
+                                                }}
+                                                className="btn btn-secondary"
+                                            >
+                                                Edit
+                                            </span>
+                                            <span
+                                                className="m-0 btn btn-danger"
+                                                onClick={() =>
+                                                    confirmDelete(index)
+                                                }
+                                            >
+                                                Delete
+                                            </span>
+                                        </div>
+                                    ) : (
+                                        ''
+                                    )}
+                                </ListGroup.Item>
+                            ))}
+                        </ListGroup>
+                    </Col>
+                    <Col>
+                        {activeItem !== undefined ? (
+                            <Snippet snippet={snippets[activeItem].snippet} />
+                        ) : null}
+                    </Col>
+                </Row>
+            ) : (
+                <p>No snippets found</p>
+            )}
         </Container>
     )
 }
