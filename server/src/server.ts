@@ -4,6 +4,7 @@ import cors from 'cors'
 import morgan from 'morgan'
 import router from './routes'
 import bodyParser from 'body-parser'
+import logger from './utils/logger'
 
 const app: Express = express()
 
@@ -49,4 +50,4 @@ app.use((req, res, next) => {
 
 const httpServer = http.createServer(app)
 const PORT = process.env.PORT || 3000
-httpServer.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+httpServer.listen(PORT, () => logger.info(`Server running on port ${PORT}`))

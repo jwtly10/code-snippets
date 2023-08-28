@@ -3,16 +3,14 @@ import { Col, Container, Row } from 'react-bootstrap'
 
 function DeleteDialog({
     id,
-    snippets,
+    getSnippets,
     onClose,
-    setSnippets,
-    setError,
+    handleError,
 }: {
     id: number
-    snippets: Snippet[]
+    getSnippets: () => void
     onClose: () => void
-    setSnippets: (snippets: Snippet[]) => void
-    setError: (error: string) => void
+    handleError: (error: string) => void
 }) {
     return (
         <Container>
@@ -22,7 +20,7 @@ function DeleteDialog({
                     <p className="card-text">
                         This will delete all snippet data.
                     </p>
-
+                    s{' '}
                     <Row className="d-flex justify-content-center">
                         <Col className="d-flex justify-content-center">
                             <button
@@ -43,22 +41,13 @@ function DeleteDialog({
                                                 id
                                         )
                                         .then(() => {
-                                            setSnippets(
-                                                snippets.filter(
-                                                    (snippet: Snippet) =>
-                                                        snippet.snippet_id !==
-                                                        id
-                                                )
-                                            )
+                                            getSnippets()
+                                            onClose()
                                         })
                                         .catch((error) => {
-                                            setError(
-                                                'Error: ' +
-                                                    error.response.data.error
-                                            )
+                                            handleError(error.toString())
+                                            onClose()
                                         })
-
-                                    onClose()
                                 }}
                             >
                                 Yes, Delete it!

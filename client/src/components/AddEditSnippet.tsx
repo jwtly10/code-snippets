@@ -9,11 +9,11 @@ import utils from '../utils/utils'
 function AddEditSnippet({
     snippet,
     onClose,
-    updateSnippets,
+    getSnippets,
 }: {
     snippet?: Snippet
     onClose: () => void
-    updateSnippets?: () => void
+    getSnippets?: () => void
 }) {
     const [error, setError] = useState<string>('')
     const [snipTitle, setSnipTitle] = useState<string>('')
@@ -49,7 +49,6 @@ function AddEditSnippet({
 
     function handleSubmit(e: any) {
         e.preventDefault()
-        // Check if anything will break before submitting
         var formattedText = ''
         var minifiedText = ''
 
@@ -57,6 +56,7 @@ function AddEditSnippet({
             formattedText = format(snipText)
             minifiedText = utils.minify(formattedText)
         } catch (err: any) {
+            // Validating snippet
             setError(err.toString())
             return
         }
@@ -70,8 +70,8 @@ function AddEditSnippet({
                 })
                 .then(() => {
                     onClose()
-                    if (updateSnippets) {
-                        updateSnippets()
+                    if (getSnippets) {
+                        getSnippets()
                     }
                 })
                 .catch((err) => {
