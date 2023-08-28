@@ -3,16 +3,8 @@ import { useEffect, useRef, useState } from 'react'
 import { Button, Card, Form } from 'react-bootstrap'
 import { format } from 'sql-formatter'
 import dayjs from 'dayjs'
-import utils from '../utils/utils'
 
-type Snippet = {
-    language: string
-    title: string
-    snippet: string
-    snippet_id: number
-    created: Date
-    updated: Date
-}
+import utils from '../utils/utils'
 
 function AddEditSnippet({
     snippet,

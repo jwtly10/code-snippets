@@ -7,7 +7,7 @@ import { EditorState } from '@codemirror/state'
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language'
 import { tags } from '@lezer/highlight'
 
-function Snippet({ snippet }: { snippet: string }) {
+function SnippetView({ snippet }: { snippet: string }) {
     const [formattedSnippet, setFormattedSnippet] = useState<string>('')
     const [error, setError] = useState<string>('')
     const editor = useRef()
@@ -80,4 +80,4 @@ function Snippet({ snippet }: { snippet: string }) {
     )
 }
 
-export default Snippet
+export default SnippetView

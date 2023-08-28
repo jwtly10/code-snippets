@@ -1,20 +1,12 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import Snippet from './Snippet'
-import AddEditSnippet from './AddEditSnippet'
 import { Col, Container, ListGroup, Row } from 'react-bootstrap'
 import { confirmAlert } from 'react-confirm-alert'
-import DeleteDialog from './DeleteDialog'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 
-type Snippet = {
-    language: string
-    title: string
-    snippet: string
-    snippet_id: number
-    created?: Date
-    updated?: Date
-}
+import DeleteDialog from './DeleteDialog'
+import SnippetView from './SnippetView'
+import AddEditSnippet from './AddEditSnippet'
 
 function ListSnippets() {
     const [snippets, setSnippets] = useState<Snippet[]>([])
@@ -141,7 +133,9 @@ function ListSnippets() {
                     </Col>
                     <Col>
                         {activeItem !== undefined ? (
-                            <Snippet snippet={snippets[activeItem].snippet} />
+                            <SnippetView
+                                snippet={snippets[activeItem].snippet}
+                            />
                         ) : null}
                     </Col>
                 </Row>

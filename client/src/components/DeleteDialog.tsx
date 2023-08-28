@@ -1,15 +1,6 @@
 import axios from 'axios'
 import { Col, Container, Row } from 'react-bootstrap'
 
-type Snippet = {
-    language: string
-    title: string
-    snippet: string
-    snippet_id: number
-    created?: Date
-    updated?: Date
-}
-
 function DeleteDialog({
     id,
     snippets,
