@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Button, Card, Form } from 'react-bootstrap'
 import { format } from 'sql-formatter'
 import dayjs from 'dayjs'
+import Error from './Error'
 
 import utils from '../utils/utils'
 
@@ -34,6 +35,10 @@ function AddEditSnippet({
             setSnipLang('SQL')
         }
     }, [])
+
+    function handleError(err: string) {
+        setError(err)
+    }
 
     function handleLangChange(e: any) {
         setSnipLang(e.target.value)
@@ -139,11 +144,7 @@ function AddEditSnippet({
                         />
                     </Form.Group>
 
-                    {error ? (
-                        <p className="alert alert-danger mt-3 d-flex justify-content-between">
-                            {error}
-                        </p>
-                    ) : null}
+                    <Error error={error} handleError={handleError} />
 
                     <div className="d-flex justify-content-end">
                         {snippet ? (

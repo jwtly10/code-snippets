@@ -37,7 +37,7 @@ function DeleteDialog({
                                 onClick={() => {
                                     axios
                                         .delete(
-                                            'http://localhost:3000/v1/delete/' +
+                                            'http://localhost:3000/v1/delete/f' +
                                                 id
                                         )
                                         .then(() => {
