@@ -6,6 +6,8 @@ import { keymap, lineNumbers } from '@codemirror/view'
 import { EditorState } from '@codemirror/state'
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language'
 import { tags } from '@lezer/highlight'
+import { HiOutlineClipboardCopy } from 'react-icons/hi'
+import toast, { Toaster } from 'react-hot-toast'
 
 function SnippetView({ snippet }: { snippet: string }) {
     const [formattedSnippet, setFormattedSnippet] = useState<string>('')
@@ -49,6 +51,7 @@ function SnippetView({ snippet }: { snippet: string }) {
             { tag: tags.keyword, color: '#fc6' },
             { tag: tags.comment, color: '#f5d', fontStyle: 'italic' },
         ])
+
         const startState = EditorState.create({
             doc: formattedSnippet,
             extensions: [
@@ -64,13 +67,42 @@ function SnippetView({ snippet }: { snippet: string }) {
             parent: editor.current,
         })
 
+        displayMinimumLines(view, 5)
+
         return () => {
             view.destroy()
         }
     }, [formattedSnippet])
 
+    function displayMinimumLines(view: EditorView, minLines: number) {
+        const currentLineCount = view.state.doc.lines
+        const currentStr = view.state.doc.toString()
+
+        if (currentLineCount >= minLines) {
+            return
+        }
+
+        const lines = minLines - currentLineCount
+
+        const appendLines = '\n'.repeat(lines)
+
+        view.dispatch({
+            changes: { from: currentStr.length, insert: appendLines },
+        })
+    }
+
     return (
-        <div className="border border-dark" ref={editor}>
+        <div className="position-relative border border-dark" ref={editor}>
+            <p
+                className="position-absolute copy m-2"
+                onClick={() => {
+                    navigator.clipboard.writeText(formattedSnippet)
+                    toast.success('Copied to clipboard!')
+                }}
+            >
+                <HiOutlineClipboardCopy size={25} />
+            </p>
+            <Toaster />
             {error ? (
                 <p className="alert alert-danger mt-3 d-flex justify-content-between">
                     {error}

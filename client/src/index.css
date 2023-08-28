@@ -14,3 +14,10 @@
 .react-confirm-alert-overlay{
     background-color: rgba(0,0,0,0.8);
 }
+
+.copy{
+    z-index: 9999;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+}
