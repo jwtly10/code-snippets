@@ -1,16 +1,22 @@
 #root{
     height: 100vh;
 }
+
+.list-group-item{
+    cursor: pointer;
+}
+
 .cm-editor{
     max-height: 500px;
     overflow-y: auto;
     /* border: 1px solid #ddd; */
-    background-color: #1E1E1E;
+    /* background-color: #1E1E1E; */
+    background-color: #212121;
     border-radius: 5px;
 }
 
 .cm-gutter{
-    background-color: #1E1E1E;
+    background-color: #212121;
     color: #808080;
 }
 

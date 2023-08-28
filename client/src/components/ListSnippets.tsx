@@ -59,7 +59,7 @@ function ListSnippets({
     }
 
     return (
-        <Container>
+        <div>
             {snippets.length > 0 ? (
                 <Row>
                     <Col>
@@ -68,7 +68,7 @@ function ListSnippets({
                                 <ListGroup.Item
                                     key={index}
                                     onClick={() => toggleSelection(index)}
-                                    className="d-flex justify-content-between align-items-center"
+                                    className="d-flex justify-content-between align-items-center "
                                     style={{
                                         height: '50px',
                                     }}
@@ -115,7 +115,7 @@ function ListSnippets({
             ) : (
                 <p>No snippets found</p>
             )}
-        </Container>
+        </div>
     )
 }
 

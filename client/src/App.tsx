@@ -34,7 +34,7 @@ function App() {
         <>
             <div style={{ display: 'flex', height: '100%' }}>
                 <SideBar snippets={snippets} getSnippets={getSnippets} />
-                <Container>
+                <Container className="mt-4">
                     <Error error={error} handleError={handleError} />
                     <ListSnippets
                         snippets={snippets}
