@@ -77,6 +77,7 @@ function localDelete(snippetID: number) {
     let newSnippets = snippets.filter((snippet) => {
         return snippet.snippet_id !== snippetID
     })
+
     localStorage.setItem('snippets', JSON.stringify(newSnippets))
 }
 
