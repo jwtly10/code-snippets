@@ -50,6 +50,8 @@ function localNew(snippet: string, lang: string, title: string) {
                 },
             ])
         )
+
+        return
     }
 
     localStorage.setItem(
