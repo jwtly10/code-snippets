@@ -10,7 +10,8 @@ Live & Dev env use AWS RDS.
 
 Demo 09/09:
 
-https://github.com/jwtly10/code-snippets/assets/39057715/fac4f5ca-6ccd-491f-a6e3-1083b39f952b
+https://github.com/jwtly10/code-snippets/assets/39057715/d4706a9c-25d6-4218-9f13-6030c2299c97
+
 
 WIP: 
 - Sharing snippets
