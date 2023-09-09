@@ -3,18 +3,21 @@ import { format } from 'sql-formatter'
 import { EditorView } from 'codemirror'
 import { defaultKeymap } from '@codemirror/commands'
 import { keymap, lineNumbers } from '@codemirror/view'
-import { Compartment, EditorState } from '@codemirror/state'
+import { EditorState } from '@codemirror/state'
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language'
 import { tags } from '@lezer/highlight'
-import { HiOutlineClipboardCopy } from 'react-icons/hi'
+
+import Tooltip from '@mui/material/Tooltip'
+import ContentPasteIcon from '@mui/icons-material/ContentPaste'
+import IconButton from '@mui/material/IconButton'
+
 import toast, { Toaster } from 'react-hot-toast'
 import dayjs from 'dayjs'
-import tz from 'dayjs/plugin/timezone'
 
 function SnippetView({ snippet }: { snippet: Snippet }) {
     const [formattedSnippet, setFormattedSnippet] = useState<string>('')
     const [error, setError] = useState<string>('')
-    const editor = useRef()
+    const editor: any = useRef()
 
     useEffect(() => {
         try {
@@ -109,7 +112,16 @@ function SnippetView({ snippet }: { snippet: Snippet }) {
                         toast.success('Copied to clipboard!')
                     }}
                 >
-                    <HiOutlineClipboardCopy size={25} />
+                    <Tooltip
+                        title="Copy Snippet to Clipboard"
+                        className="text-white"
+                    >
+                        <IconButton className="m-2">
+                            <ContentPasteIcon
+                                style={{ margin: 0, padding: 0 }}
+                            />
+                        </IconButton>
+                    </Tooltip>{' '}
                 </p>
                 <Toaster />
                 {error ? (

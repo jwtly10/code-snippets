@@ -2,6 +2,9 @@ import { useState } from 'react'
 import { Col, Container, ListGroup, Row } from 'react-bootstrap'
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
+import Tooltip from '@mui/material/Tooltip'
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
+import IconButton from '@mui/material/IconButton'
 
 import DeleteDialog from './DeleteDialog'
 import SnippetView from './SnippetView'
@@ -58,6 +61,23 @@ function ListSnippets({
         })
     }
 
+    function handleNewSnippet() {
+        confirmAlert({
+            customUI: ({ onClose }) => {
+                return (
+                    <Container>
+                        <AddEditSnippet
+                            onClose={() => {
+                                onClose()
+                                getSnippets()
+                            }}
+                        />
+                    </Container>
+                )
+            },
+        })
+    }
+
     return (
         <div className="w-100">
             {snippets.length > 0 ? (
@@ -73,8 +93,20 @@ function ListSnippets({
                         }}
                     >
                         <div className="d-flex flex-row justify-content-between">
-                            <h4 className="m-3 text-start">All Snippets</h4>
-                            <h4 className="m-3 text-start">+</h4>
+                            <h4 className="m-3 text-start ">All Snippets</h4>
+                            <Tooltip
+                                title="New Snippet"
+                                className="text-primary"
+                            >
+                                <IconButton
+                                    className="m-2"
+                                    onClick={handleNewSnippet}
+                                >
+                                    <AddCircleOutlineIcon
+                                        style={{ margin: 0, padding: 0 }}
+                                    />
+                                </IconButton>
+                            </Tooltip>{' '}
                         </div>
                         <ListGroup>
                             {snippets.map((snippet: Snippet, index: number) => (
