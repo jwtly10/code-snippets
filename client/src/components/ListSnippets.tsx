@@ -93,7 +93,9 @@ function ListSnippets({
                         }}
                     >
                         <div className="d-flex flex-row justify-content-between">
-                            <h4 className="m-3 text-start ">All Snippets</h4>
+                            <h4 className="m-3 text-start ">
+                                {'All Snippets (' + snippets.length + ')'}
+                            </h4>
                             <Tooltip
                                 title="New Snippet"
                                 className="text-primary"

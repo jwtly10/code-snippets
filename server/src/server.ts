@@ -7,12 +7,9 @@ import bodyParser from 'body-parser'
 import logger from './utils/logger'
 import * as dotenv from 'dotenv'
 
-console.log(dotenv.config())
-
 const app: Express = express()
 
 const FRONTEND_URL = process.env.FRONTEND_URL
-console.log(FRONTEND_URL)
 
 // logging
 app.use(morgan('dev'))

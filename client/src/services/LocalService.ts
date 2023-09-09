@@ -36,6 +36,22 @@ function localNew(snippet: string, lang: string, title: string) {
         }
     }
 
+    if (snippets.length === 0) {
+        localStorage.setItem(
+            'snippets',
+            JSON.stringify([
+                {
+                    snippet_id: lastID + 1,
+                    language: lang,
+                    title: title,
+                    snippet: snippet,
+                    created: new Date(),
+                    updated: new Date(),
+                },
+            ])
+        )
+    }
+
     localStorage.setItem(
         'snippets',
         JSON.stringify([

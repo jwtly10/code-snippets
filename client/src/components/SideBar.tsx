@@ -48,7 +48,6 @@ function SideBar({
                         New Snippet
                     </Button>
                 </div>
-
                 <MenuItem>
                     <span className="d-flex justify-content-between align-items-center">
                         <p className="m-0" style={{ margin: 0 }}>
@@ -59,9 +58,6 @@ function SideBar({
                         </p>
                     </span>
                 </MenuItem>
-                <SubMenu label="Folders">
-                    <MenuItem className="text-secondary">None Found</MenuItem>
-                </SubMenu>
             </Menu>
         </Sidebar>
     )
