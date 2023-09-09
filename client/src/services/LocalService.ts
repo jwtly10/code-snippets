@@ -27,31 +27,13 @@ function localUpdate(
 
 function localNew(snippet: string, lang: string, title: string) {
     let snippets: Snippet[] = localStorage.getItem('snippets')
-        ? JSON.parse(localStorage.getItem('snippets') || '{}')
-        : {}
+        ? JSON.parse(localStorage.getItem('snippets') || '[]')
+        : []
     let lastID = 0
     for (let key in snippets) {
         if (snippets[key].snippet_id > lastID) {
             lastID = snippets[key].snippet_id
         }
-    }
-
-    if (snippets.length === 0) {
-        localStorage.setItem(
-            'snippets',
-            JSON.stringify([
-                {
-                    snippet_id: lastID + 1,
-                    language: lang,
-                    title: title,
-                    snippet: snippet,
-                    created: new Date(),
-                    updated: new Date(),
-                },
-            ])
-        )
-
-        return
     }
 
     localStorage.setItem(
