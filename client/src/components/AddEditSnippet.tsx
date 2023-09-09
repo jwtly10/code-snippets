@@ -1,7 +1,7 @@
-import axios from 'axios'
 import { useEffect, useRef, useState } from 'react'
 import { Button, Card, Form } from 'react-bootstrap'
 import { format } from 'sql-formatter'
+import proxy from '../services/ProxyService'
 import dayjs from 'dayjs'
 import Error from './Error'
 
@@ -67,34 +67,23 @@ function AddEditSnippet({
         }
 
         if (snippet) {
-            axios
-                .put('http://localhost:3000/v1/update/' + snippet.snippet_id, {
-                    snippet: minifiedText,
-                    language: snipLang,
-                    title: snipTitle,
-                })
-                .then(() => {
-                    onClose()
-                    if (getSnippets) {
-                        getSnippets()
-                    }
-                })
-                .catch((err) => {
-                    setError(err.toString())
-                })
+            proxy.updateSnippet(
+                snippet.snippet_id,
+                minifiedText,
+                snipLang,
+                snipTitle,
+                onClose,
+                setError,
+                getSnippets
+            )
         } else {
-            axios
-                .post('http://localhost:3000/v1/save', {
-                    snippet: minifiedText,
-                    language: snipLang,
-                    title: snipTitle,
-                })
-                .then(() => {
-                    onClose()
-                })
-                .catch((err) => {
-                    setError(err.toString())
-                })
+            proxy.newSnippet(
+                minifiedText,
+                snipLang,
+                snipTitle,
+                onClose,
+                setError
+            )
         }
     }
 

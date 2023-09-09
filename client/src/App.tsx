@@ -1,7 +1,7 @@
 import ListSnippets from './components/ListSnippets'
 import './App.css'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import proxy from './services/ProxyService'
 import SideBar from './components/SideBar'
 import Error from './components/Error'
 
@@ -19,14 +19,7 @@ function App() {
     }
 
     function getSnippets() {
-        axios
-            .get('http://localhost:3000/v1/snippets')
-            .then((response) => {
-                setSnippets(response.data.result)
-            })
-            .catch((err) => {
-                setError(err.toString())
-            })
+        proxy.getSnippets(setSnippets, setError)
     }
 
     return (

@@ -163,7 +163,7 @@ function ListSnippets({
                     </Col>
                 </Row>
             ) : (
-                <p>No snippets found</p>
+                <p className="text-secondary m-5">No snippets found</p>
             )}
         </div>
     )

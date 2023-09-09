@@ -1,4 +1,4 @@
-import axios from 'axios'
+import proxy from '../services/ProxyService'
 import { Col, Container, Row } from 'react-bootstrap'
 
 function DeleteDialog({
@@ -19,8 +19,7 @@ function DeleteDialog({
                     <h5 className="card-title">Are you sure?</h5>
                     <p className="card-text">
                         This will delete all snippet data.
-                    </p>
-                    s{' '}
+                    </p>{' '}
                     <Row className="d-flex justify-content-center">
                         <Col className="d-flex justify-content-center">
                             <button
@@ -35,19 +34,12 @@ function DeleteDialog({
                             <button
                                 className="btn btn-danger w-75"
                                 onClick={() => {
-                                    axios
-                                        .delete(
-                                            'http://localhost:3000/v1/delete/f' +
-                                                id
-                                        )
-                                        .then(() => {
-                                            getSnippets()
-                                            onClose()
-                                        })
-                                        .catch((error) => {
-                                            handleError(error.toString())
-                                            onClose()
-                                        })
+                                    proxy.deleteSnippet(
+                                        id,
+                                        onClose,
+                                        handleError,
+                                        getSnippets
+                                    )
                                 }}
                             >
                                 Yes, Delete it!
