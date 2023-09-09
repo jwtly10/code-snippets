@@ -9,6 +9,7 @@ import { tags } from '@lezer/highlight'
 import { HiOutlineClipboardCopy } from 'react-icons/hi'
 import toast, { Toaster } from 'react-hot-toast'
 import dayjs from 'dayjs'
+import tz from 'dayjs/plugin/timezone'
 
 function SnippetView({ snippet }: { snippet: Snippet }) {
     const [formattedSnippet, setFormattedSnippet] = useState<string>('')
@@ -53,10 +54,6 @@ function SnippetView({ snippet }: { snippet: Snippet }) {
             { tag: tags.comment, color: '#f5d', fontStyle: 'italic' },
         ])
 
-        const editorOptions = {
-            readOnly: true,
-        }
-
         const startState = EditorState.create({
             doc: formattedSnippet,
             extensions: [
@@ -67,8 +64,6 @@ function SnippetView({ snippet }: { snippet: Snippet }) {
                 EditorView.editable.of(false),
             ],
         })
-
-        console.log(startState.facet(EditorView.editable))
 
         const view = new EditorView({
             state: startState,
@@ -102,7 +97,9 @@ function SnippetView({ snippet }: { snippet: Snippet }) {
     return (
         <div className="mt-3">
             <h3 className="text-left">{snippet.title}</h3>
-            <h5 className="text-left">{snippet.language}</h5>
+            <h5 className="text-left text-secondary">
+                <small>{snippet.language}</small>
+            </h5>
 
             <div className="position-relative border border-dark" ref={editor}>
                 <p

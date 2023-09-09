@@ -152,7 +152,10 @@ function AddEditSnippet({
                                 className="d-flex flex-column align-items-end"
                                 style={{ marginRight: 10 }}
                             >
-                                <p className="text-secondary m-0 p-0">
+                                <p
+                                    className="text-secondary m-0 p-0"
+                                    style={{ margin: 0 }}
+                                >
                                     <small>
                                         Created:{' '}
                                         {dayjs(snippet.created).format(
@@ -160,7 +163,10 @@ function AddEditSnippet({
                                         )}
                                     </small>
                                 </p>
-                                <p className="text-secondary m-0 p-0">
+                                <p
+                                    className="text-secondary m-0 p-0"
+                                    style={{ margin: 0 }}
+                                >
                                     <small>
                                         Last Updated:{' '}
                                         {dayjs(snippet.updated).format(
