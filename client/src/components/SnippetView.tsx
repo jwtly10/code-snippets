@@ -3,7 +3,7 @@ import { format } from 'sql-formatter'
 import { EditorView } from 'codemirror'
 import { defaultKeymap } from '@codemirror/commands'
 import { keymap, lineNumbers } from '@codemirror/view'
-import { EditorState } from '@codemirror/state'
+import { Compartment, EditorState } from '@codemirror/state'
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language'
 import { tags } from '@lezer/highlight'
 import { HiOutlineClipboardCopy } from 'react-icons/hi'
@@ -53,6 +53,10 @@ function SnippetView({ snippet }: { snippet: Snippet }) {
             { tag: tags.comment, color: '#f5d', fontStyle: 'italic' },
         ])
 
+        const editorOptions = {
+            readOnly: true,
+        }
+
         const startState = EditorState.create({
             doc: formattedSnippet,
             extensions: [
@@ -60,8 +64,11 @@ function SnippetView({ snippet }: { snippet: Snippet }) {
                 lineNumbers(),
                 myTheme,
                 syntaxHighlighting(myHighlightStyle),
+                EditorView.editable.of(false),
             ],
         })
+
+        console.log(startState.facet(EditorView.editable))
 
         const view = new EditorView({
             state: startState,
