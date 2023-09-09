@@ -1,13 +1,23 @@
 import axios from 'axios'
+import local from './LocalService'
 
-const BACKEND_URL = 'http://localhost:3000'
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
+const ENV = process.env.NODE_ENV
+
+// Current Running mode
+console.log('Running: ', ENV)
 
 function getSnippets(
     setSnippets: (response: any) => void,
     setError: (err: string) => void
 ) {
+    if (ENV === 'demo') {
+        local.localGetAll(setSnippets)
+        return
+    }
+
     axios
-        .get('http://localhost:3000/v1/snippets')
+        .get(BACKEND_URL + 'snippets')
         .then((response) => {
             setSnippets(response.data.result)
         })
@@ -25,8 +35,15 @@ function updateSnippet(
     setError: (err: string) => void,
     getSnippets?: () => void
 ) {
+    if (ENV === 'demo') {
+        local.localUpdate(snippetID, snippet, lang, title)
+        getSnippets && getSnippets()
+        onClose()
+        return
+    }
+
     axios
-        .put('http://localhost:3000/v1/update/' + snippetID, {
+        .put(BACKEND_URL + 'update/' + snippetID, {
             snippet: snippet,
             language: lang,
             title: title,
@@ -49,8 +66,14 @@ function newSnippet(
     onClose: () => void,
     setError: (err: string) => void
 ) {
+    if (ENV === 'demo') {
+        local.localNew(snippet, lang, title)
+        onClose()
+        return
+    }
+
     axios
-        .post('http://localhost:3000/v1/save', {
+        .post(BACKEND_URL + 'save', {
             snippet: snippet,
             language: lang,
             title: title,
@@ -69,8 +92,15 @@ function deleteSnippet(
     handleError: (err: string) => void,
     getSnippets: () => void
 ) {
+    if (ENV === 'demo') {
+        local.localDelete(id)
+        getSnippets()
+        onClose()
+        return
+    }
+
     axios
-        .delete('http://localhost:3000/v1/delete/' + id)
+        .delete(BACKEND_URL + 'delete/' + id)
         .then(() => {
             getSnippets()
             onClose()

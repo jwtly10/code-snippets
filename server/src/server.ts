@@ -5,8 +5,14 @@ import morgan from 'morgan'
 import router from './routes'
 import bodyParser from 'body-parser'
 import logger from './utils/logger'
+import * as dotenv from 'dotenv'
+
+console.log(dotenv.config())
 
 const app: Express = express()
+
+const FRONTEND_URL = process.env.FRONTEND_URL
+console.log(FRONTEND_URL)
 
 // logging
 app.use(morgan('dev'))
@@ -15,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(
     cors({
-        origin: 'http://localhost:5173',
+        origin: FRONTEND_URL,
     })
 )
 
@@ -47,7 +53,6 @@ app.use((req, res, next) => {
         message: error.message,
     })
 })
-
 
 const httpServer = http.createServer(app)
 const PORT = process.env.PORT || 3000

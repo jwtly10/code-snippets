@@ -99,11 +99,14 @@ function SnippetView({ snippet }: { snippet: Snippet }) {
 
     return (
         <div className="mt-3">
-            <h3 className="text-left">{snippet.title}</h3>
-            <h5 className="text-left text-secondary">
-                <small>{snippet.language}</small>
-            </h5>
-
+            {snippet !== undefined ? (
+                <div>
+                    <h3 className="text-left">{snippet.title}</h3>
+                    <h5 className="text-left text-secondary">
+                        <small>{snippet.language}</small>
+                    </h5>
+                </div>
+            ) : null}
             <div className="position-relative border border-dark" ref={editor}>
                 <p
                     className="position-absolute copy m-2"
@@ -131,21 +134,27 @@ function SnippetView({ snippet }: { snippet: Snippet }) {
                 ) : null}
             </div>
 
-            <div className="mt-3 d-flex flex-column align-items-end">
-                <p className="text-secondary m-0 p-0" style={{ margin: 0 }}>
-                    <small>
-                        Created:{' '}
-                        {dayjs(snippet.created).format('YYYY-MM-DD HH:mm:ss')}
-                    </small>
-                </p>
+            {snippet !== undefined ? (
+                <div className="mt-3 d-flex flex-column align-items-end">
+                    <p className="text-secondary m-0 p-0" style={{ margin: 0 }}>
+                        <small>
+                            Created:{' '}
+                            {dayjs(snippet.created).format(
+                                'YYYY-MM-DD HH:mm:ss'
+                            )}
+                        </small>
+                    </p>
 
-                <p className="text-secondary m-0 p-0">
-                    <small>
-                        Last Updated:{' '}
-                        {dayjs(snippet.updated).format('YYYY-MM-DD HH:mm:ss')}
-                    </small>
-                </p>
-            </div>
+                    <p className="text-secondary m-0 p-0">
+                        <small>
+                            Last Updated:{' '}
+                            {dayjs(snippet.updated).format(
+                                'YYYY-MM-DD HH:mm:ss'
+                            )}
+                        </small>
+                    </p>
+                </div>
+            ) : null}
         </div>
     )
 }
