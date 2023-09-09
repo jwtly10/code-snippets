@@ -28,7 +28,7 @@ function SideBar({
     }
 
     return (
-        <Sidebar backgroundColor="#1F1F21">
+        <Sidebar className="sidebar" backgroundColor="#1F1F21">
             <Menu
                 menuItemStyles={{
                     button: {

@@ -59,37 +59,48 @@ function ListSnippets({
     }
 
     return (
-        <div>
+        <div className="w-100">
             {snippets.length > 0 ? (
-                <Row>
-                    <Col>
+                <Row style={{ height: '100%' }}>
+                    <Col className="m-0 w-100" style={{ height: '100%' }}>
+                        <div className="d-flex flex-row justify-content-between">
+                            <h4 className="m-3 text-start">All Snippets</h4>
+                            <h4 className="m-3 text-start">+</h4>
+                        </div>
                         <ListGroup>
                             {snippets.map((snippet: Snippet, index: number) => (
                                 <ListGroup.Item
                                     key={index}
                                     onClick={() => toggleSelection(index)}
-                                    className="d-flex justify-content-between align-items-center "
+                                    className="d-flex rounded-0 border w-100 justify-content-between align-items-center "
                                     style={{
-                                        height: '50px',
+                                        borderLeft: '0 !important',
                                     }}
                                     active={activeItem == index}
                                 >
-                                    {'[' +
-                                        snippet.language +
-                                        '] ' +
-                                        snippet.title}
+                                    <div className="d-flex align-items-start flex-column">
+                                        <h6 style={{ margin: 0 }}>
+                                            {snippet.title}
+                                        </h6>
+                                        <p
+                                            className="text-secondary"
+                                            style={{ margin: 0 }}
+                                        >
+                                            <small> {snippet.language}</small>
+                                        </p>
+                                    </div>
                                     {activeItem == index ? (
-                                        <div className="d-flex justify-content-between w-25">
+                                        <div className="d-flex justify-content-end w-25">
                                             <span
                                                 onClick={() => {
                                                     editSnippet(index)
                                                 }}
-                                                className="m-0 btn btn-secondary"
+                                                className="btn btn-secondary edit"
                                             >
                                                 Edit
                                             </span>
                                             <span
-                                                className="m-0 btn btn-danger"
+                                                className="btn btn-danger"
                                                 onClick={() =>
                                                     deleteSnippet(index)
                                                 }
@@ -104,11 +115,9 @@ function ListSnippets({
                             ))}
                         </ListGroup>
                     </Col>
-                    <Col>
+                    <Col className="m-5 p-0 mt-0">
                         {activeItem !== undefined ? (
-                            <SnippetView
-                                snippet={snippets[activeItem].snippet}
-                            />
+                            <SnippetView snippet={snippets[activeItem]} />
                         ) : null}
                     </Col>
                 </Row>

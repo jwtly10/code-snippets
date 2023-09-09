@@ -8,15 +8,16 @@ import { HighlightStyle, syntaxHighlighting } from '@codemirror/language'
 import { tags } from '@lezer/highlight'
 import { HiOutlineClipboardCopy } from 'react-icons/hi'
 import toast, { Toaster } from 'react-hot-toast'
+import dayjs from 'dayjs'
 
-function SnippetView({ snippet }: { snippet: string }) {
+function SnippetView({ snippet }: { snippet: Snippet }) {
     const [formattedSnippet, setFormattedSnippet] = useState<string>('')
     const [error, setError] = useState<string>('')
     const editor = useRef()
 
     useEffect(() => {
         try {
-            setFormattedSnippet(format(snippet))
+            setFormattedSnippet(format(snippet.snippet))
         } catch (error: any) {
             setFormattedSnippet('')
             setError(error.toString())
@@ -92,22 +93,43 @@ function SnippetView({ snippet }: { snippet: string }) {
     }
 
     return (
-        <div className="position-relative border border-dark" ref={editor}>
-            <p
-                className="position-absolute copy m-2"
-                onClick={() => {
-                    navigator.clipboard.writeText(formattedSnippet)
-                    toast.success('Copied to clipboard!')
-                }}
-            >
-                <HiOutlineClipboardCopy size={25} />
-            </p>
-            <Toaster />
-            {error ? (
-                <p className="alert alert-danger mt-3 d-flex justify-content-between">
-                    {error}
+        <div className="mt-3">
+            <h3 className="text-left">{snippet.title}</h3>
+            <h5 className="text-left">{snippet.language}</h5>
+
+            <div className="position-relative border border-dark" ref={editor}>
+                <p
+                    className="position-absolute copy m-2"
+                    onClick={() => {
+                        navigator.clipboard.writeText(formattedSnippet)
+                        toast.success('Copied to clipboard!')
+                    }}
+                >
+                    <HiOutlineClipboardCopy size={25} />
                 </p>
-            ) : null}
+                <Toaster />
+                {error ? (
+                    <p className="alert alert-danger mt-3 d-flex justify-content-between">
+                        {error}
+                    </p>
+                ) : null}
+            </div>
+
+            <div className="mt-3 d-flex flex-column align-items-end">
+                <p className="text-secondary m-0 p-0" style={{ margin: 0 }}>
+                    <small>
+                        Created:{' '}
+                        {dayjs(snippet.created).format('YYYY-MM-DD HH:mm:ss')}
+                    </small>
+                </p>
+
+                <p className="text-secondary m-0 p-0">
+                    <small>
+                        Last Updated:{' '}
+                        {dayjs(snippet.updated).format('YYYY-MM-DD HH:mm:ss')}
+                    </small>
+                </p>
+            </div>
         </div>
     )
 }

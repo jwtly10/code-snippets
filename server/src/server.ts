@@ -48,6 +48,7 @@ app.use((req, res, next) => {
     })
 })
 
+
 const httpServer = http.createServer(app)
 const PORT = process.env.PORT || 3000
 httpServer.listen(PORT, () => logger.info(`Server running on port ${PORT}`))

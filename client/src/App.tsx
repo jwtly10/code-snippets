@@ -1,6 +1,5 @@
 import ListSnippets from './components/ListSnippets'
 import './App.css'
-import { Container } from 'react-bootstrap'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import SideBar from './components/SideBar'
@@ -34,14 +33,12 @@ function App() {
         <>
             <div style={{ display: 'flex', height: '100%' }}>
                 <SideBar snippets={snippets} getSnippets={getSnippets} />
-                <Container className="mt-4">
-                    <Error error={error} handleError={handleError} />
-                    <ListSnippets
-                        snippets={snippets}
-                        getSnippets={getSnippets}
-                        handleError={handleError}
-                    />
-                </Container>
+                <Error error={error} handleError={handleError} />
+                <ListSnippets
+                    snippets={snippets}
+                    getSnippets={getSnippets}
+                    handleError={handleError}
+                />
             </div>
         </>
     )

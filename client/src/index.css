@@ -1,11 +1,15 @@
 #root{
     height: 100vh;
+    overflow-x: hidden;
 }
 
 .list-group-item{
     cursor: pointer;
 }
 
+.sidebar{
+    border:none !important;
+}
 .cm-editor{
     max-height: 500px;
     overflow-y: auto;
@@ -29,4 +33,9 @@
     right: 0;
     top: 0;
     cursor: pointer;
+}
+
+.edit {
+    margin-right: 10px !important;
+    
 }
