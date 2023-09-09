@@ -62,7 +62,16 @@ function ListSnippets({
         <div className="w-100">
             {snippets.length > 0 ? (
                 <Row style={{ height: '100%' }}>
-                    <Col className="m-0 w-100" style={{ height: '100%' }}>
+                    <Col
+                        className="m-0 w-100"
+                        style={{
+                            height: '100%',
+                            paddingRight: '0',
+                            borderRight: '1px solid grey',
+                            maxWidth: '20%',
+                            minWidth: 550,
+                        }}
+                    >
                         <div className="d-flex flex-row justify-content-between">
                             <h4 className="m-3 text-start">All Snippets</h4>
                             <h4 className="m-3 text-start">+</h4>
@@ -72,7 +81,7 @@ function ListSnippets({
                                 <ListGroup.Item
                                     key={index}
                                     onClick={() => toggleSelection(index)}
-                                    className="d-flex rounded-0 border w-100 justify-content-between align-items-center "
+                                    className="border-0 border-bottom d-flex rounded-0 w-100 justify-content-between align-items-center "
                                     style={{
                                         borderLeft: '0 !important',
                                     }}
