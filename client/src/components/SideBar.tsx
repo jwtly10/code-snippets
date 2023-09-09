@@ -1,4 +1,4 @@
-import { Sidebar, SubMenu, Menu, MenuItem } from 'react-pro-sidebar'
+import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar'
 import { Button, Container } from 'react-bootstrap'
 import { confirmAlert } from 'react-confirm-alert'
 import AddEditSnippet from './AddEditSnippet'
