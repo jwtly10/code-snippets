@@ -3,10 +3,10 @@ Simple & quick Code Snippet Web App for Easy Access to frequently used Code Snip
 
 Used as an internal tool to save SQL statements that I use on a daily basis. 
 
+Frontend uses ReactJS & Bootstrap for styling. Connects to NodeJS/Express Rest API for storing & retrieving data from AWS DB.
+
 Demo site hosted with Netlify using LocalStorage as 'DB' : 
 [Code Snippets Demo](https://code-snippet-demo.netlify.app/)
-
-Live & Dev env use AWS RDS. 
 
 Demo 09/09:
 
